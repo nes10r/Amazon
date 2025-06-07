@@ -261,9 +261,7 @@ graph TB
 
 ```mermaid
 graph TB
-    subgraph "Internet"
-        Internet[🌐 Internet]
-    end
+    Internet[🌐 Internet]
     
     subgraph "VPC (10.0.0.0/16)"
         subgraph "Availability Zone A"
