@@ -83,106 +83,39 @@ graph TB
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-### 1. 3-Tier Web Application
-```
-┌─────────────────┐
-│   CloudFront    │ (CDN)
-└─────────┬───────┘
-          │
-┌─────────▼───────┐
-│ Application     │
-│ Load Balancer   │
-└─────────┬───────┘
-          │
-┌─────────▼───────┐    ┌─────────────────┐
-│   Web Tier      │    │   Database      │
-│   (EC2/ECS)     │────│   (RDS/DynamoDB)│
-└─────────────────┘    └─────────────────┘
-```
-
 ```mermaid
-graph TB
-    subgraph "Users"
-        Users[👥 Global Users]
+graph LR
+    subgraph "Auto Scaling Group"
+        EC2_1[🖥️ EC2 Instance 1<br/>Web Server]
+        EC2_2[🖥️ EC2 Instance 2<br/>Web Server]
+        EC2_3[🖥️ EC2 Instance 3<br/>Web Server]
     end
     
-    subgraph "Presentation Tier (CDN)"
-        CloudFront[☁️ CloudFront<br/>Global CDN<br/>Edge Locations]
-    end
-    
-    subgraph "Application Tier"
+    subgraph "Load Balancer"
         ALB[⚖️ Application<br/>Load Balancer]
-        
-        subgraph "Auto Scaling Group"
-            Web1[🖥️ Web Server 1<br/>EC2/ECS]
-            Web2[🖥️ Web Server 2<br/>EC2/ECS]
-            Web3[🖥️ Web Server 3<br/>EC2/ECS]
-        end
-        
-        subgraph "Application Logic"
-            App1[⚙️ App Server 1<br/>Business Logic]
-            App2[⚙️ App Server 2<br/>Business Logic]
-        end
     end
     
-    subgraph "Data Tier"
-        subgraph "Primary Database"
-            RDS_Primary[(🗄️ RDS Primary<br/>MySQL/PostgreSQL)]
-        end
-        
-        subgraph "Read Replicas"
-            RDS_Read1[(📖 Read Replica 1)]
-            RDS_Read2[(📖 Read Replica 2)]
-        end
-        
-        subgraph "NoSQL"
-            DynamoDB[📊 DynamoDB<br/>Session Store]
-        end
-        
-        subgraph "Cache Layer"
-            ElastiCache[⚡ ElastiCache<br/>Redis/Memcached]
-        end
+    subgraph "Database Layer"
+        RDS[(🗄️ RDS Database<br/>Multi-AZ)]
     end
     
-    subgraph "Storage"
-        S3[📁 S3 Bucket<br/>Static Assets]
-    end
+    Users[👥 Users] --> ALB
+    ALB --> EC2_1
+    ALB --> EC2_2
+    ALB --> EC2_3
     
-    Users --> CloudFront
-    CloudFront --> ALB
-    CloudFront --> S3
+    EC2_1 --> RDS
+    EC2_2 --> RDS
+    EC2_3 --> RDS
     
-    ALB --> Web1
-    ALB --> Web2
-    ALB --> Web3
+    CloudWatch[📊 CloudWatch] -.-> EC2_1
+    CloudWatch -.-> EC2_2
+    CloudWatch -.-> EC2_3
     
-    Web1 --> App1
-    Web2 --> App1
-    Web3 --> App2
-    
-    App1 --> RDS_Primary
-    App2 --> RDS_Primary
-    App1 --> RDS_Read1
-    App2 --> RDS_Read2
-    
-    App1 --> DynamoDB
-    App2 --> DynamoDB
-    
-    App1 --> ElastiCache
-    App2 --> ElastiCache
-    
-    RDS_Primary -.->|Replication| RDS_Read1
-    RDS_Primary -.->|Replication| RDS_Read2
-    
-    style CloudFront fill:#ff6600
-    style Web1 fill:#ff9900
-    style Web2 fill:#ff9900
-    style Web3 fill:#ff9900
-    style App1 fill:#66cc00
-    style App2 fill:#66cc00
-    style RDS_Primary fill:#0066cc
-    style DynamoDB fill:#cc6600
-    style ElastiCache fill:#cc0066
+    style EC2_1 fill:#ff9900
+    style EC2_2 fill:#ff9900
+    style EC2_3 fill:#ff9900
+    style RDS fill:#0066cc
 ```
 
 - Virtual maşınlar (instances)
@@ -225,6 +158,11 @@ graph TB
     style Lambda2 fill:#ff9900
     style Lambda3 fill:#ff9900
 ```
+
+- Serverless hesablama
+- Event-driven arxitektura
+- Avtomatik miqyaslama
+- Pay-per-use model
 
 ### 2. Yaddaş Xidmətləri (Storage Services)
 
@@ -620,3 +558,122 @@ mindmap
 ```
 
 ### 5 Əsas Prinsip:
+
+1. **Operational Excellence (Əməliyyat Mükəmməlliyi)**
+   - Monitoring və logging
+   - Automation
+   - Continuous improvement
+
+2. **Security (Təhlükəsizlik)**
+   - Identity and Access Management (IAM)
+   - Data encryption
+   - Network security
+
+3. **Reliability (Etibarlılık)**
+   - Multi-AZ deployment
+   - Backup və disaster recovery
+   - Auto scaling
+
+4. **Performance Efficiency (Performans Səmərəliliyi)**
+   - Right-sizing resources
+   - Caching strategies
+   - Content delivery optimization
+
+5. **Cost Optimization (Xərc Optimallaşdırması)**
+   - Reserved instances
+   - Spot instances
+   - Resource monitoring
+
+## Təhlükəsizlik Arxitekturası
+
+### Identity and Access Management (IAM)
+- Users, Groups, Roles
+- Policies və permissions
+- Multi-Factor Authentication (MFA)
+- Cross-account access
+
+### Şəbəkə Təhlükəsizliyi
+- Security Groups (Stateful firewall)
+- Network ACLs (Stateless firewall)
+- AWS WAF (Web Application Firewall)
+- AWS Shield (DDoS protection)
+
+### Data Encryption
+- Encryption at rest
+- Encryption in transit
+- AWS KMS (Key Management Service)
+- CloudHSM
+
+## Monitoring və Logging
+
+### Amazon CloudWatch
+- Metrics və alarms
+- Log aggregation
+- Dashboards
+- Auto scaling triggers
+
+### AWS CloudTrail
+- API call logging
+- Compliance və audit
+- Security analysis
+
+### AWS X-Ray
+- Distributed tracing
+- Performance analysis
+- Debugging
+
+### 1. Backup və Restore
+- RTO: Saatlar
+- RPO: Dəqiqələr/saatlar
+- Ən aşağı xərc
+
+### 2. Pilot Light
+- RTO: 10-30 dəqiqə
+- RPO: Dəqiqələr
+- Orta xərc
+
+### 3. Warm Standby
+- RTO: Dəqiqələr
+- RPO: Saniyələr
+- Yüksək xərc
+
+### 4. Multi-Site Active/Active
+- RTO: Real-time
+- RPO: Real-time
+- Ən yüksək xərc
+
+## Best Practices
+
+### 1. Design Principles
+- **Automate everything** - Mümkün olan hər şeyi avtomatlaşdırın
+- **Treat infrastructure as code** - Infrastructure as Code (IaC) istifadə edin
+- **Design for failure** - Uğursuzluq üçün dizayn edin
+- **Implement security at every layer** - Hər səviyyədə təhlükəsizlik
+
+### 2. Cost Optimization
+- Reserved Instances istifadə edin
+- Spot Instances-dan faydalanın
+- Right-sizing edin
+- Unused resources-ları silin
+- CloudWatch ilə monitoring edin
+
+### 3. Performance
+- Caching strategiyalarından istifadə edin
+- CDN (CloudFront) istifadə edin
+- Database indexing
+- Auto Scaling konfiqurasiya edin
+
+## Nəticə
+
+AWS infrastrukturu yüksək mövcudluq, miqyaslanabilirlik və təhlükəsizlik təmin edən mürəkkəb bir sistemdir. Düzgün arxitektura dizaynı ilə:
+
+- **Yüksək performans** əldə edə bilərsiniz
+- **Xərcləri optimize** edə bilərsiniz  
+- **Təhlükəsizliyi** təmin edə bilərsiniz
+- **Davamlılığı** artıra bilərsiniz
+
+Bu sənəd AWS infrastrukturunun əsas komponentlərini əhatə edir. Daha ətraflı məlumat üçün AWS rəsmi sənədlərinə müraciət edin.
+
+---
+
+**Qeyd:** Bu sənəd AWS infrastrukturunun ümumi baxışını təqdim edir. Konkret layihələr üçün daha ətraflı arxitektura dizaynı tələb oluna bilər.
