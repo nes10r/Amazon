@@ -675,3 +675,130 @@ Bu sənəd AWS infrastrukturunun əsas komponentlərini əhatə edir. Daha ətra
 ---
 
 **Qeyd:** Bu sənəd AWS infrastrukturunun ümumi baxışını təqdim edir. Konkret layihələr üçün daha ətraflı arxitektura dizaynı tələb oluna bilər.
+
+## 📥 Diaqramları Yükləmək
+
+### Online Mermaid Editorları
+
+Bu diaqramları müxtəlif formatda (PNG, SVG, PDF) yükləmək üçün aşağıdakı online alətlərdən istifadə edə bilərsiniz:
+
+#### 1. **Mermaid Live Editor** 
+🔗 **Keçid:** [https://mermaid.live/](https://mermaid.live/)
+- Diaqram kodunu kopyalayıb yapışdırın
+- PNG, SVG və ya PDF formatında yükləyin
+- Real-time preview
+
+#### 2. **Mermaid Chart**
+🔗 **Keçid:** [https://www.mermaidchart.com/](https://www.mermaidchart.com/)
+- Professional diaqram editoru
+- Komanda üçün collaboration imkanları
+- Yüksək keyfiyyətli export
+
+#### 3. **Draw.io (diagrams.net)**
+🔗 **Keçid:** [https://app.diagrams.net/](https://app.diagrams.net/)
+- Mermaid import dəstəyi
+- Müxtəlif format export imkanları
+
+### GitHub-da Diaqramları Görüntüləmək
+
+Bu repository-dəki diaqramlar GitHub-da avtomatik render olunur:
+
+🔗 **Repository:** [https://github.com/nes10r/Amazon](https://github.com/nes10r/Amazon)
+
+### Diaqram Kodlarını Kopyalamaq
+
+Hər diaqramın kodunu kopyalayıb yuxarıdakı editorlarda istifadə edə bilərsiniz:
+
+#### AWS Global Infrastructure
+```
+Kod: README.md-də 18-42 sətirlərdə
+```
+
+#### EC2 Auto Scaling Architecture  
+```
+Kod: README.md-də 67-89 sətirlərdə
+```
+
+#### Lambda Event-Driven Architecture
+```
+Kod: README.md-də 103-127 sətirlərdə
+```
+
+#### S3 Storage Classes Lifecycle
+```
+Kod: README.md-də 142-175 sətirlərdə
+```
+
+#### VPC Network Architecture
+```
+Kod: README.md-də 195-250 sətirlərdə
+```
+
+#### 3-Tier Web Application
+```
+Kod: README.md-də 275-340 sətirlərdə
+```
+
+#### Microservices Architecture
+```
+Kod: README.md-də 355-430 sətirlərdə
+```
+
+#### Disaster Recovery Strategies
+```
+Kod: README.md-də 445-480 sətirlərdə
+```
+
+#### AWS Well-Architected Framework
+```
+Kod: README.md-də 485-550 sətirlərdə
+```
+
+### CLI Alətləri
+
+#### Mermaid CLI
+```bash
+# Quraşdırma
+npm install -g @mermaid-js/mermaid-cli
+
+# PNG formatında export
+mmdc -i diagram.mmd -o diagram.png
+
+# SVG formatında export  
+mmdc -i diagram.mmd -o diagram.svg
+
+# PDF formatında export
+mmdc -i diagram.mmd -o diagram.pdf
+```
+
+### VS Code Extension
+
+**Mermaid Preview** extension-ı quraşdırın:
+- Extension ID: `bierner.markdown-mermaid`
+- Real-time preview
+- Export imkanları
+
+### Diaqram Faylları
+
+Hər diaqramı ayrı `.mmd` faylı olaraq saxlamaq üçün:
+
+```bash
+# Nümunə: aws-global-infrastructure.mmd
+graph TB
+    subgraph "AWS Global Infrastructure"
+        # ... diaqram kodu
+    end
+```
+
+### Tövsiyələr
+
+1. **Yüksək Keyfiyyət üçün:** SVG formatını seçin
+2. **Prezentasiya üçün:** PNG formatını istifadə edin  
+3. **Print üçün:** PDF formatını seçin
+4. **Web üçün:** SVG və ya PNG formatları uyğundur
+
+### Dəstək
+
+Diaqramlarla bağlı problemlər üçün:
+- 📧 GitHub Issues: [Repository Issues](https://github.com/nes10r/Amazon/issues)
+- 📖 Mermaid Documentation: [https://mermaid.js.org/](https://mermaid.js.org/)
